@@ -9,6 +9,8 @@ from __future__ import absolute_import
 import os
 import sys
 
+import traceback
+
 import time
 
 from logbook import Logger
@@ -69,7 +71,7 @@ class BEPCheck(CheckBase):
                 log.debug(rawdata)
                 #time.sleep(0.3)
                 if cmd == 'ASTF':
-                    code_str = rawdata[cmd]
+                    code_str = rawdata[cmd.encode('utf8')]
                     if code_str == 'ASTF':
                         pass
                     else:
@@ -85,5 +87,5 @@ class BEPCheck(CheckBase):
                 
                 #time.sleep(3)
             except Exception as ex:
-                
+                log.debug(traceback.format_exc())
                 log.error(ex)
