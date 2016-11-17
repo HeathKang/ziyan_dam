@@ -1,0 +1,7 @@
+
+[plugin]
+type = 'command'
+interval = 15
+cmds = ["ASTF","ASTZ"]
+in_q = ''
+out_q = 'ak_cmd'

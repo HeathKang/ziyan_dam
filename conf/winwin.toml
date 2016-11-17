@@ -1,0 +1,123 @@
+
+[app]
+
+name = "ziyan"
+interval = 5
+
+title = ""
+title_like = "SciTE"
+
+process = "python.exe"
+
+#plugins = ['plugins.winwin.weiss_check.WeissCheck', 'plugins.winwin.weiss_handler.MsgHandler']
+    [[app.plugin]]
+    path = 'plugins.socket.bep_command.BEPCommand'
+    channel = "bep_cmd"
+    
+    [[app.plugin]]
+    path = 'plugins.socket.bep_check.BEPCheck'
+    channel = "ak_chk"
+
+
+    
+[bep_cmd]
+type = 'command'
+interval = 3
+
+[ak_chk]
+    [ak_chk.equipment]
+    host = "127.0.0.1"
+    #host = "127.0.0.1"
+    port = 23800 
+    channel = 1
+    timeout = 5
+
+    allowed_cmds = ['AAUG', 'ABRP', 'ADEF', 'ADRV', 'AFAN', 'AFLT', 'AFOF', 'AFWD', 'AGST', 'AKON', 'AMST', 'ARAL','ARBT', 'AREF', 'ARLP', 'ASIE', 'ASTF', 'ASTZ', 'ATCO', 'ATHP', 'AVFI', 'AVMA', 'AWBP', 'AWEG', 'AWRT']
+
+    equipentno = "PEC0-03908-0001"
+    plantask = "C:/bepco/dyno3/configur/templist.csv"
+    loadtasklua = "lua/loadtask.lua"
+    loadrate = 60
+
+[ch2]
+type='check'
+interval = 7
+
+[h1]
+type='handler'
+    
+[logging]
+
+debug = true
+
+logfile = "logs/winwin.log"
+backup_count = 5
+max_size = 1048576
+format_string = '({record.time:%Y-%m-%d %H:%M:%S.%f%z}),{record.level_name},[{record.thread}],{record.channel},{record.func_name}[{record.lineno}]: {record.message}'
+
+[redis]
+
+host = "127.0.0.1"
+port = 6389 
+db = 3
+
+[influxdb]
+host = "127.0.0.1"
+port = 8086
+username ="root"
+password = "root"
+db = "mabo"
+
+# s: second
+time_precision = "s"
+
+###=========================================================
+
+[checker]
+
+target = 'setting'
+interval = 5
+
+points = [[39, 42], [36, 46], [20, 11]]
+position = ['running', 'stop', 'ref']
+green = [0, 255, 0]
+white = [255, 255, 255]
+ref = [198, 198, 198]
+
+[handler]
+#interval = 5
+
+[handler.tags]
+eqpt_no = "eqpt02"
+node = "n1"
+zone = "zone1"
+
+
+[output]
+measurement = "winwin"
+enqueue_script = 'lua/enqueue_v0.1.lua'
+channel = "ch1"
+
+[output.tags]
+eqpt_no = "eqpt02"
+node = "n1"
+zone = "zone1"
+
+
+[station]
+name = ""
+title = ""
+class_name_list = ["Edit","ProgressBar"]
+
+data_source = ["edit1", "edit2","progressbar3"]
+
+[station.edit1]
+measurement = ""
+data_source = ["edit1","edit2"]
+position = [1,2,3]
+
+
+
+
+
+

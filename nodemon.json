@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+   "events": {
+     "restart": "make install"
+  },
+    "ignore": ["*.egg-info/","build/", "*.html","*.js", "test/*", ".git/*", "*.log"]
+}
