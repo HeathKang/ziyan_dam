@@ -1,7 +1,5 @@
 
-[plugin]
+[channel]
 type = 'command'
 interval = 20
 cmds = ["ASTZ"]
-in_q = ''
-out_q = 'ak_cmd'

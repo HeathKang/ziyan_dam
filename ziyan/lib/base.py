@@ -24,7 +24,7 @@ else:
     
 class Base(object):
     
-    def __init__(self, path_plugin, channel):
+    def __init__(self, path_plugin, plugin):
         
         self.g = Global()
         
@@ -32,14 +32,16 @@ class Base(object):
         #self.conf = self.g.conf
         #self.conf = self.g.conf[channel]
         
+        self.channel = plugin['channel']
+        
         dir_plugin = os.path.dirname(path_plugin)
         
-        conf_file_name = "{}.toml".format(channel)
+        conf_file_name = "{}.toml".format(self.channel)
         
         conf_file = os.sep.join([dir_plugin, conf_file_name])
         
-        self.conf = get_conf(conf_file)['plugin']
+        self.conf = get_conf(conf_file)['channel']
         
         
-        self.in_q = self.g.get_queue(self.conf['in_q'])
-        self.out_q = self.g.get_queue(self.conf['out_q'])     
+        self.in_q = self.g.get_queue(plugin['in_q'])
+        self.out_q = self.g.get_queue(plugin['out_q'])     

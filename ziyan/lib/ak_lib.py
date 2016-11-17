@@ -176,10 +176,7 @@ class AKClient(object):
           
             
             #for cmd in cmds_set:
-            
-            #self.channel_number = ord(str(self.channel_number))
-            
-
+                
             msg = self.pack(cmd, self.channel_number, code)
 
             status = self._send(msg)
@@ -268,7 +265,8 @@ class AKClient(object):
         #cmd = "AVFI"
         #print(channel_number, cmd, code)
         #cmd = cmd.upper()
-
+        
+        
         if cmd =='AFLT':
             """ The dyno will return the fault text within double quotes (102 characters max data.)
                 If the fault number is not found, just the two double quotes will be returned.
@@ -287,7 +285,7 @@ class AKClient(object):
                 fmt = "!2b%dsb%ds5b" % (clen, xlen)
                 #print fmt
                 #channel_number = 0
-                
+
                 buf = struct.pack(fmt, STX, BLANK, cmd, BLANK, code, BLANK, K, channel_number, BLANK, ETX)
                 #log.debug(buf)
                 return buf            
@@ -299,13 +297,11 @@ class AKClient(object):
 
             # AK Command telegram
             fmt = "!2b%ds5b" % (clen)
-            #fmt = '7b'
-            log.debug(type(cmd))
-            log.debug(fmt)
+            #print fmt
             #channel_number = 0
 
-            buf = struct.pack(fmt, STX, BLANK, cmd.encode('utf8'), BLANK, K, channel_number, BLANK, ETX)
-            log.debug(buf)
+            buf = struct.pack(fmt, STX, BLANK, cmd, BLANK, K, channel_number, BLANK, ETX)
+            #log.debug(buf)
             return buf
 
     def unpack(self, cmd, data):

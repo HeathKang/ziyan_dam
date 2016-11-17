@@ -13,19 +13,26 @@ process = "python.exe"
     [[app.plugin]]
     path = 'plugins.socket.bep_command.BEPCommand'
     channel = "bep_command"
+    in_q = ''
+    out_q = 'ak_cmd'
     
     [[app.plugin]]
     path = 'plugins.socket.bep_check.BEPCheck'
     channel = "bep_check"
+    in_q = 'ak_cmd'
+    out_q = 'ak_hd'
 
     [[app.plugin]]
     path = 'plugins.socket.bep_command.BEPCommand'
     channel = "bep_command2"
-    
+    in_q = ''
+    out_q = 'ak_cmd2'
+
     [[app.plugin]]
     path = 'plugins.socket.bep_check.BEPCheck'
     channel = "bep_check2"
-
+    in_q = 'ak_cmd2'
+    out_q = 'ak_hd2'
 
 
 

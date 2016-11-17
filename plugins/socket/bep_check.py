@@ -9,8 +9,6 @@ from __future__ import absolute_import
 import os
 import sys
 
-import traceback
-
 import time
 
 from logbook import Logger
@@ -28,13 +26,13 @@ from ziyan.lib.check_base import CheckBase
 
 class BEPCheck(CheckBase):
     
-    def __init__(self, channel):
+    def __init__(self, plugin):
         
         #log.debug(__file__)
         #
 
         
-        super(BEPCheck, self).__init__(__file__, channel)
+        super(BEPCheck, self).__init__(__file__, plugin)
         
         #self.conf = conf
         log.debug(self.conf)
@@ -71,7 +69,7 @@ class BEPCheck(CheckBase):
                 log.debug(rawdata)
                 #time.sleep(0.3)
                 if cmd == 'ASTF':
-                    code_str = rawdata[cmd.encode('utf8')]
+                    code_str = rawdata[cmd]
                     if code_str == 'ASTF':
                         pass
                     else:
@@ -87,5 +85,5 @@ class BEPCheck(CheckBase):
                 
                 #time.sleep(3)
             except Exception as ex:
-                log.debug(traceback.format_exc())
+                
                 log.error(ex)

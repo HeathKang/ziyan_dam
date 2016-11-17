@@ -28,7 +28,7 @@ from ziyan.lib.base import Base
 class CheckBase(Base):
     """ checker base class, worker for gather information from screen """
     
-    def __init__(self, path_plugin, channel):
+    def __init__(self, path_plugin, plugin):
         """ init """        
         #self.conf = conf
         """
@@ -48,7 +48,9 @@ class CheckBase(Base):
         self.in_q = self.g.get_queue(self.conf['in_q'])
         self.out_q = self.g.get_queue(self.conf['out_q'])
         """
-        super(CheckBase, self).__init__(path_plugin, channel)
+        super(CheckBase, self).__init__(path_plugin, plugin)
+        
+        #self.channel = plugin['channel']
         
     def inject_payload(self, type, payload):
         """ inject payload into msg body """

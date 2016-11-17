@@ -19,15 +19,15 @@ from ziyan.lib.command_base import CommandBase
 class BEPCommand(CommandBase):
     """ AK Command for BEP """
     
-    def __init__(self, channel):
+    def __init__(self, plugin):
         """ 
         channel 
         
         """
         
-        self.channel = channel
+        #self.channel = channel
         
-        super(BEPCommand, self).__init__(__file__, channel)
+        super(BEPCommand, self).__init__(__file__, plugin)
         
         self.cmds = self.conf['cmds']
         

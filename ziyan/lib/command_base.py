@@ -21,11 +21,11 @@ from ziyan.lib.base import Base
 class CommandBase(Base):
     """ checker base class, worker for gather information from screen """
     
-    def __init__(self, path_plugin, channel):
+    def __init__(self, path_plugin, plugin):
         """ init """        
         #self.conf = conf
         #self.g = Global()
-        super(CommandBase, self).__init__(path_plugin, channel)
+        super(CommandBase, self).__init__(path_plugin, plugin)
         ### get configuration
         #self.g_conf = self.g.conf
         

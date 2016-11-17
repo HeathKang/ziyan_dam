@@ -43,7 +43,7 @@ from maboio.lib.utils import get_conf, get_class
 
 ### hidden import
 if version_info[0] == 3:
-    from ziyan.lib.global3 import Global
+    from ziyan.lib.sharedq3 import SharedQ
 else:
     from ziyan.lib.global2 import Global
 
@@ -92,7 +92,7 @@ def setup(conf):
         log.debug(conf)
         #log.debug(conf[channel])
         log.debug("===" * 20)
-        worker = Klass(channel)
+        worker = Klass(plugin)
         
         thread_name = "t_%s" %(channel)
         
