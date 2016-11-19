@@ -1,0 +1,15 @@
+[channel]
+
+    [channel.equipment]
+    host = "127.0.0.1"
+    #host = "127.0.0.1"
+    port = 8000
+    channel_number = 0
+    timeout = 3
+
+    allowed_cmds = ['AAUG', 'ABRP', 'ADEF', 'ADRV', 'AFAN', 'AFLT', 'AFOF', 'AFWD', 'AGST', 'AKON', 'AMST', 'ARAL','ARBT', 'AREF', 'ARLP', 'ASIE', 'ASTF', 'ASTZ', 'ATCO', 'ATHP', 'AVFI', 'AVMA', 'AWBP', 'AWEG', 'AWRT']
+
+    equipentno = "PEC0-03908-0001"
+    plantask = "C:/bepco/dyno3/configur/templist.csv"
+    loadtasklua = "lua/loadtask.lua"
+    loadrate = 60

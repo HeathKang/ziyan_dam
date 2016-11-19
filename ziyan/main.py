@@ -43,7 +43,7 @@ from maboio.lib.utils import get_conf, get_class
 
 ### hidden import
 if version_info[0] == 3:
-    from ziyan.lib.sharedq3 import SharedQ
+    from ziyan.lib.global3 import Global
 else:
     from ziyan.lib.global2 import Global
 
