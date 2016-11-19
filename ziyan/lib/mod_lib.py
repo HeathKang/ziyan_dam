@@ -32,11 +32,20 @@ class ModbusClient(object):
 
         self.protocol =conf['protocol']
         self.port = conf["port"] # pc port COM
-        self.addr = hex(conf["addr"]) # the start of registers
+       # self.addr = hex(conf["addr"]) # the start of registers
+        self.addr = int(conf["addr"],base=16)
+        print("addr++" * 60)
+        log.debug(self.addr)
+        print("addr++" * 60)
+        
         self.baudrate = conf["baudrate"]
 
         self.count = conf["count"] # the number of register
-        self.unit = hex(conf["unit"]) #the unit of registers
+        #self.unit = hex(conf["unit"]) #the unit of registers
+        self.unit =  int(conf["unit"],base=16)
+        print("unit++" * 60)
+        log.debug(self.unit)
+        print("unit++" * 60)
 
         self.timeout = conf["timeout"]
         self.allowed_cmds = set()
@@ -56,14 +65,12 @@ class ModbusClient(object):
 
         if not self.lock.locked():
             self.lock.acquire()
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.client =  ModbusSerialClient(self.protocol, port=self.port,baudrat=self.baudrate, timeout=self.timeout)
+            self.client =  ModbusSerialClient(self.protocol, port=self.port,baudrate=self.baudrate, timeout=self.timeout)
 
 
             try:
                 log.debug("connect {}".format(self.port))
-                self.sock.connect((self.host, self.port))
-                self.status = MOD_CONNECTED_CONNECTED
+                self.status = MOD_CONNECTED
             except:
                 self.status = MOD_DISCONNECTED
                 # raise Exception("no connection")
@@ -139,10 +146,9 @@ class ModbusClient(object):
 
             #for cmd in cmds_set:
 
-            msg = self.pack(cmd, self.channel_number, code)
 
 
-            if status == MOD_CONNECTED:
+            if self.status == MOD_CONNECTED:
 
                 data_recv = self._recv()
 
