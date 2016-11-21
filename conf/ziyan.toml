@@ -12,17 +12,17 @@ process = "python.exe"
 #plugins = ['plugins.winwin.weiss_check.WeissCheck', 'plugins.winwin.weiss_handler.MsgHandler']
 
 
-    [[app.plugin]]
-    path='plugins.dam.dam_command.DAMCommand'
-    channel = 'dam_command'
-    in_q = 'mod_cmd'
-    out_q = 'mod_chd'
+   # [[app.plugin]]
+    #path='plugins.dam.dam_command.DAMCommand'
+    #channel = 'dam_command'
+    #in_q = 'mod_cmd'
+    #out_q = 'mod_chd'
 
-    [[app.plugin]]
-    path='plugins.dam.dam_check.DAMCheck'
-    channel = 'dam_check'
-    in_q = 'mod_chd'
-    out_q = 'mod_had'
+    #[[app.plugin]]
+    #path='plugins.dam.dam_check.DAMCheck'
+    #channel = 'dam_check'
+    #in_q = 'mod_chd'
+    #out_q = 'mod_had'
 
     [[app.plugin]]
     path='plugins.dam.dam_handler.DAMHandler'

@@ -7,7 +7,9 @@ dam_data handler
 
 from __future__ import absolute_import
 
-import msgback
+import msgpack
+import time
+from Queue import Queue #just for test
 
 from logbook import Logger
 
@@ -18,7 +20,7 @@ from maboio.lib.redis_lib import RedisClient
 from ziyan.lib.handler_base import HandlerBase
 
 
-class DamHandler(HandlerBase):
+class DAMHandler(HandlerBase):
     """ msg processor for Dam"""
     
     def __init__ (self,plugin):
@@ -26,14 +28,14 @@ class DamHandler(HandlerBase):
         channel 
         
         """
-        self.channel = channel
         
-        super(DamHandler,self).__init__(__file__,plugin)
+        super(DAMHandler,self).__init__(__file__,plugin)
         
         log.debug('---' * 25 )
         
         log.debug('---' * 25)
-        
+
+
         self.red = RedisClient(self.conf['redis'])
         self.red.load_script(self.conf['output']['enqueue_script'])
             
@@ -45,8 +47,8 @@ class DamHandler(HandlerBase):
         rtn = self.red.enqueue(eqpt_no = kwargs['eqpt_no'],
                         timestamp = kwargs['timestamp'],
                         cmd =   kwargs['cmd'],
-                        rawdata = msgback.packb(kwargs['rawdata']),
-                        data = msgback.packb(kwargs['data']),
+                        rawdata = msgpack.packb(kwargs['rawdata']),
+                        data = msgpack.packb(kwargs['data']),
                         measurement = kwargs['measurement'])
         log.debug(rtn)
         
@@ -56,30 +58,34 @@ class DamHandler(HandlerBase):
         
         """
         while True:
-            
+
             try:
                 ### get  msg from msg_queue
-                fields = self.get()
-                
-                if fields == 'stop it':
-                    log.warning("stop by msg")
-                    break
-                    
-                log.debug(self.conf[self.channel])
+                timestamp = time.time()
+                data_test = [20, 20, 20, 20]
+                fields = {'uuid': 1,
+                          'timestamp': timestamp,
+                          'type': 1,
+                          'channel': self.channel,
+                          'interval': 10,
+                          'payload': data_test
+                          }
 
-            log.debug(fields)
 
-            eqpt_no = self.conf['dam_equipment']['equipmentno']
 
-            timestamp = fields['timestamp']
 
-            # log.debug(button_status)
-            for i in fields['payload']:
+                log.debug(fields)
 
-                measurement = 'DAM_TEM_Value'
-                for line in fields['payload'][i]:
-                    data = line
-                    rawdata = line
+                eqpt_no = self.conf['dam_equipment']['equipmentno']
+
+                timestamp = fields['timestamp']
+
+                # log.debug(button_status)
+                for i in fields['payload']:
+
+                    measurement = 'DAM_TEM_Value'
+                    data = i
+                    rawdata = i
                     log.debug(data)
                     # msg = {'uuid':uid, 'timestamp':timestamp,'type':type, 'channel':self.channel, 'interval':interval, 'payload ':payload}
                     self.process(eqpt_no=eqpt_no,
@@ -90,9 +96,11 @@ class DamHandler(HandlerBase):
                                  measurement=measurement)
                     # msg_queue.task_done()
 
+            except Exception as e:
 
-        except Exception as ex:
-        log.error(ex)
+                log.debug(e)
+
+
 
 
                 

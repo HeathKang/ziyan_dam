@@ -6,10 +6,12 @@ for AK, Vision, OPC, DB ...
 ]]
 -- key1,argv1,argv2,argv3,argv4
 -- KEYS[1], equipment
--- ARGV[1], new status value
--- ARGV[2], timestamp
--- ARGV[3], message 
--- ARGV[4], ttl
+-- ARGV[1], timestamp
+-- ARGV[2], cmd
+-- ARGV[3], rawdata
+-- ARGV[4], data
+-- ARGV[5], measurment
+
 
 -- eqpt_no,timestamp, cmd, measurement, data, rawdata
 
@@ -58,7 +60,7 @@ else
     redis.call("HSET", eqpt_key,"val",rawdata )
     redis.call("HSET", eqpt_key,"timestamp",timestamp)
 
-    local vdata =cmsgpack.unpack(ARGV[4])
+--  local vdata =cmsgpack.unpack(ARGV[4])
 
     local cmd = ARGV[2]
 
@@ -68,13 +70,11 @@ else
             data = {  
                 measurement = ARGV[3],
                 time = ARGV[1],        
-                fields = {text = vdata['edit1']},        
+                fields = {text = },
                 tags = {eqpt_no =  KEYS[1], node = "n3"}
             }
         }
 
-
-`     `
     local msg = cmsgpack.pack(s)
 
     redis.call("RPUSH", "data_queue",msg) -- msg queue    
