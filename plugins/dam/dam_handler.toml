@@ -12,7 +12,7 @@
 
     host = "127.0.0.1"
     port = 6379
-    db = 3
+    db = 4
 
     [channel.dam_equipment]
 

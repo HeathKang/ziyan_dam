@@ -89,13 +89,15 @@ class DAMHandler(HandlerBase):
                     log.debug(data)
                     # msg = {'uuid':uid, 'timestamp':timestamp,'type':type, 'channel':self.channel, 'interval':interval, 'payload ':payload}
                     self.process(eqpt_no=eqpt_no,
-                                 timestamp=timestamp,
+                                 timestamp=int(timestamp * (1000)),
                                  cmd='STR',
                                  rawdata=rawdata,
                                  data=data,
                                  measurement=measurement)
                     # msg_queue.task_done()
-
+                    print("*" * 50)
+                    log.debug(int(timestamp))
+                    print("*" * 50)
             except Exception as e:
 
                 log.debug(e)
