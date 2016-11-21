@@ -24,47 +24,21 @@ process = "python.exe"
     in_q = 'mod_chd'
     out_q = 'mod_had'
 
+    [[app.plugin]]
+    path='plugins.dam.dam_handler.DAMHandler'
+    channel = 'dam_handler'
+    in_q = 'mod_had'
+    out_q = 'mod_meg'
 
 
+[dam_equipment]
+equipmentno = "temperature-sensor"
 
-
-[bep_cmd2]
-type = 'command'
-interval = 20
-cmds = ["ASTZ"]
-in_q = ''
-out_q = 'ak_cmd2'
-
-[ak_chk2]
-in_q = 'ak_cmd2'
-out_q = 'ak_hd2'
-
-    [ak_chk2.equipment]
-    host = "127.0.0.1"
-    #host = "127.0.0.1"
-    port = 8000
-    channel = 0
-    timeout = 3
-
-    allowed_cmds = ['AAUG', 'ABRP', 'ADEF', 'ADRV', 'AFAN', 'AFLT', 'AFOF', 'AFWD', 'AGST', 'AKON', 'AMST', 'ARAL','ARBT', 'AREF', 'ARLP', 'ASIE', 'ASTF', 'ASTZ', 'ATCO', 'ATHP', 'AVFI', 'AVMA', 'AWBP', 'AWEG', 'AWRT']
-
-    equipentno = "PEC0-03908-0001"
-    plantask = "C:/bepco/dyno3/configur/templist.csv"
-    loadtasklua = "lua/loadtask.lua"
-    loadrate = 60
-
-[ch2]
-type='check'
-interval = 7
-
-[h1]
-type='handler'
-    
 [logging]
 
 debug = true
 
-logfile = "logs/winwin.log"
+logfile = "logs/dam.log"
 backup_count = 5
 max_size = 1048576
 format_string = '({record.time:%Y-%m-%d %H:%M:%S.%f%z}),{record.level_name},[{record.thread_name}],{record.channel},{record.func_name}[{record.lineno}]: {record.message}'
@@ -106,7 +80,6 @@ eqpt_no = "eqpt02"
 node = "n1"
 zone = "zone1"
 
-
 [output]
 measurement = "winwin"
 enqueue_script = 'lua/enqueue_v0.1.lua'
@@ -118,17 +91,7 @@ node = "n1"
 zone = "zone1"
 
 
-[station]
-name = ""
-title = ""
-class_name_list = ["Edit","ProgressBar"]
 
-data_source = ["edit1", "edit2","progressbar3"]
-
-[station.edit1]
-measurement = ""
-data_source = ["edit1","edit2"]
-position = [1,2,3]
 
 
 

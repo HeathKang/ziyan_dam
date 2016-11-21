@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-plugin for BEP AK Client
+plugin for Modbus Client
 
 """
 from __future__ import absolute_import
@@ -60,10 +60,11 @@ class DAMCheck(CheckBase):
 
                 # cmd = 'ASTZ'
                 rawdata = self.mod.query(cmd['cmd'])
+                data = self.inject_payload(int,rawdata)
 
-                log.debug(rawdata)
+                log.debug(data)
 
-                self.put(rawdata)
+                self.put(data)
 
 
 

@@ -1,88 +1,116 @@
 # -*- coding: utf-8 -*-
 
 """
-plugin for BEP AK Client
+dam_data handler
 
 """
+
 from __future__ import absolute_import
 
-import os
-import sys
-
-import time
+import msgback
 
 from logbook import Logger
 
-log = Logger('ak_chk')
+log = Logger('dam_handler')
 
-from maboio.lib.utils import fn_timer
+from maboio.lib.redis_lib import RedisClient
 
-# from lib.sharedq import SharedQ
-from ziyan.lib.exceptions import NoDataException
-
-from ziyan.lib.ak_lib import AKClient
-from ziyan.lib.check_base import CheckBase
+from ziyan.lib.handler_base import HandlerBase
 
 
-class BEPCheck(CheckBase):
-    def __init__(self, plugin):
-
-        # log.debug(__file__)
-        #
-
-
-        super(BEPCheck, self).__init__(__file__, plugin)
-
-        # self.conf = conf
-        log.debug(self.conf)
-        log.debug(">>>" * 20)
-        self.ak = AKClient(self.conf['equipment'])
-
-        self.connect()
-
-    def connect(self):
-        """ connect ak host """
-
-        self.ak.connect()
-
+class DamHandler(HandlerBase):
+    """ msg processor for Dam"""
+    
+    def __init__ (self,channel):
+        """
+        channel 
+        
+        """
+        self.channel = channel
+        
+        super(DamHandler,self).__init__()
+        
+        log.debug('---' * 25 )
+        
+        log.debug('---' * 25)
+        
+        
+        if self.conf['logging']['debug']:
+            
+            log.debug('no redis connected')
+            
+        else:
+            self.red = RedisClient(self.conf['redis'])
+            self.red.load_script(self.conf['output']['enqueue_script'])
+            
+    def process(self,**kwargs):
+        """
+        process 
+        
+        """
+        rtn = self.red.enqueue(eqpt_no = kwargs['eqpt_no'],
+                        timestamp = kwargs['timestamp'],
+                        cmd =   kwargs['cmd'],
+                        rawdata = msgback.packb(kwargs['rawdata']),
+                        data = msgback.packb(kwargs['data']),
+                        measurement = kwargs['measurement'])
+        log.debug(rtn)
+        
     def run(self):
-        """ thread """
-
+        """
+        loop
+        
+        """
         while True:
-
+            
             try:
+                ### get  msg from msg_queue
+                fields = self.get()
+                
+                if fields == 'stop it':
+                    log.warning("stop by msg")
+                    break
+                    
+                log.debug(self.conf[self.channel])
 
-                log.debug(self.g.queues.keys())
+            log.debug(fields)
 
-                cmd = self.get_cmd()
+            eqpt_no = self.conf['dam_equipment']['equipmentno']
 
-                log.debug(cmd)
+            timestamp = fields['timestamp']
 
-                # cmd = 'ASTZ'
-                rawdata = self.ak.query(cmd['cmd'])
-                log.debug(rawdata)
-                # time.sleep(3)
+            # log.debug(button_status)
+            for i in fields['payload']:
 
-                cmd = 'ASTF'
-                rawdata = self.ak.query(cmd)
-                log.debug(rawdata)
-                # time.sleep(0.3)
-                if cmd == 'ASTF':
-                    code_str = rawdata[cmd]
-                    if code_str == 'ASTF':
-                        pass
-                    else:
-                        code_list = code_str.split(',')
-                        for code in code_list:
-                            log.debug(code)
-                            ### (2, 32, 'AFLT', 32, 50, '"Chamber is not ready !!! Can\'t operate dyno, check function of Chamber"', 3)
-                            try:
-                                error_msg = self.ak.query('AFLT', code)
-                                log.debug(error_msg)
-                            except Exception as ex:
-                                log.debug(ex)
+                measurement = 'DAM_TEM_Value'
+                for line in fields['payload'][i]:
+                    data = line
+                    rawdata = line
+                    log.debug(data)
+                    # msg = {'uuid':uid, 'timestamp':timestamp,'type':type, 'channel':self.channel, 'interval':interval, 'payload ':payload}
+                    self.process(eqpt_no=eqpt_no,
+                                 timestamp=timestamp,
+                                 cmd='STR',
+                                 rawdata=rawdata,
+                                 data=data,
+                                 measurement=measurement)
+                    # msg_queue.task_done()
 
-                                # time.sleep(3)
-            except Exception as ex:
 
-                log.error(ex)
+        except Exception as ex:
+        log.error(ex)
+
+
+                
+                
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
