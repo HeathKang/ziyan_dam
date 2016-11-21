@@ -21,27 +21,21 @@ from ziyan.lib.handler_base import HandlerBase
 class DamHandler(HandlerBase):
     """ msg processor for Dam"""
     
-    def __init__ (self,channel):
+    def __init__ (self,plugin):
         """
         channel 
         
         """
         self.channel = channel
         
-        super(DamHandler,self).__init__()
+        super(DamHandler,self).__init__(__file__,plugin)
         
         log.debug('---' * 25 )
         
         log.debug('---' * 25)
         
-        
-        if self.conf['logging']['debug']:
-            
-            log.debug('no redis connected')
-            
-        else:
-            self.red = RedisClient(self.conf['redis'])
-            self.red.load_script(self.conf['output']['enqueue_script'])
+        self.red = RedisClient(self.conf['redis'])
+        self.red.load_script(self.conf['output']['enqueue_script'])
             
     def process(self,**kwargs):
         """
