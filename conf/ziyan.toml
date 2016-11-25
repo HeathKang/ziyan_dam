@@ -12,23 +12,114 @@ process = "python.exe"
 #plugins = ['plugins.winwin.weiss_check.WeissCheck', 'plugins.winwin.weiss_handler.MsgHandler']
 
 
-   # [[app.plugin]]
-    #path='plugins.dam.dam_command.DAMCommand'
-    #channel = 'dam_command'
-    #in_q = 'mod_cmd'
-    #out_q = 'mod_chd'
+    [[app.plugin]]
+    path='plugins.dam.dam_command.DAMCommand'
+    channel = 'dam_command'
+    in_q = 'mod_cmd'
+    out_q = 'mod_chd'
 
-    #[[app.plugin]]
-    #path='plugins.dam.dam_check.DAMCheck'
-    #channel = 'dam_check'
-    #in_q = 'mod_chd'
-    #out_q = 'mod_had'
+    [[app.plugin]]
+    path='plugins.dam.dam_check.DAMCheck'
+    channel = 'dam_check'
+    in_q = 'mod_chd'
+    out_q = 'mod_had'
 
     [[app.plugin]]
     path='plugins.dam.dam_handler.DAMHandler'
     channel = 'dam_handler'
     in_q = 'mod_had'
     out_q = 'mod_meg'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_command.DAMCommand'
+    channel = 'dam_command1'
+    in_q = 'mod_cmd'
+    out_q = 'mod_chd'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_check.DAMCheck'
+    channel = 'dam_check1'
+    in_q = 'mod_chd'
+    out_q = 'mod_had'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_handler.DAMHandler'
+    channel = 'dam_handler1'
+    in_q = 'mod_had'
+    out_q = 'mod_meg'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_command.DAMCommand'
+    channel = 'dam_command2'
+    in_q = 'mod_cmd'
+    out_q = 'mod_chd'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_check.DAMCheck'
+    channel = 'dam_check2'
+    in_q = 'mod_chd'
+    out_q = 'mod_had'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_handler.DAMHandler'
+    channel = 'dam_handler2'
+    in_q = 'mod_had'
+    out_q = 'mod_meg'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_command.DAMCommand'
+    channel = 'dam_command3'
+    in_q = 'mod_cmd'
+    out_q = 'mod_chd'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_check.DAMCheck'
+    channel = 'dam_check3'
+    in_q = 'mod_chd'
+    out_q = 'mod_had'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_handler.DAMHandler'
+    channel = 'dam_handler3'
+    in_q = 'mod_had'
+    out_q = 'mod_meg'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_command.DAMCommand'
+    channel = 'dam_command4'
+    in_q = 'mod_cmd'
+    out_q = 'mod_chd'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_check.DAMCheck'
+    channel = 'dam_check4'
+    in_q = 'mod_chd'
+    out_q = 'mod_had'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_handler.DAMHandler'
+    channel = 'dam_handler4'
+    in_q = 'mod_had'
+    out_q = 'mod_meg'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_command.DAMCommand'
+    channel = 'dam_command5'
+    in_q = 'mod_cmd'
+    out_q = 'mod_chd'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_check.DAMCheck'
+    channel = 'dam_check5'
+    in_q = 'mod_chd'
+    out_q = 'mod_had'
+
+    [[app.plugin]]
+    path='plugins.dam.dam_handler.DAMHandler'
+    channel = 'dam_handler5'
+    in_q = 'mod_had'
+    out_q = 'mod_meg'
+
 
 
 [dam_equipment]

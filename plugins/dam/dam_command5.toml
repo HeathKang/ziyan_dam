@@ -1,9 +1,5 @@
 [channel]
 
-    [channel.equipment]
-    addr = "0x00001"
-    count = 4
-    port = "COM1"
-    unit = 0x05
-    timeout = 1
-    allowed_cmds = ['STR']
+    type = 'command'
+    interval = 1
+    cmds = ["STR"]

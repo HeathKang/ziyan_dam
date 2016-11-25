@@ -16,7 +16,7 @@
 
     [channel.dam_equipment]
 
-    equipmentno = "hpu_06"
+    equipmentno = "hpu_01"
 
     [channel.dam_measurement]
 
@@ -28,13 +28,13 @@
     #interval = 5
 
     [handler.tags]
-    eqpt_no = "hpu_06"
+    eqpt_no = "hpu_01"
     node = "n1"
     zone = "zone1"
 
     [channel.output]
     measurement = "winwin"
-    enqueue_script = 'lua/enqueue_v0.1.lua'
+    enqueue_script = "lua/enqueue_v0.1.lua"
     channel = "ch1"
 
     [output.tags]

@@ -36,12 +36,21 @@ for DAM
 
         local s = {
                 cmd = ARGV[2],
-                rawdata = rawdata,
+                rawdata = rawdata[0],
                 data = {
                     measurement = measurement,
                     time = timestamp,
                     fields = {
-                        temp  = vdata
+                        temp_01  = vdata[0],
+                        temp_02  = vdata[1],
+                        temp_03  = vdata[2],
+                        temp_04  = vdata[3],
+
+                        pd = vdata [4],
+                        as_temp = vdata [5]
+                        as_saturation = vdata[6]
+
+
                               },
                     tags = {
                         eqpt_no =  eqt,
