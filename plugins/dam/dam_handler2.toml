@@ -38,6 +38,6 @@
     channel = "ch1"
 
     [output.tags]
-    eqpt_no = hpu_06"
+    eqpt_no = "hpu_06"
     node = "n1"
     zone = "zone1"
