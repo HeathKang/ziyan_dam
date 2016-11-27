@@ -46,9 +46,12 @@ for DAM
                         temp_03  = vdata[2],
                         temp_04  = vdata[3],
 
-                        pd = vdata [4],
-                        as_temp = vdata [5]
-                        as_saturation = vdata[6]
+                        pd_01 = vdata [4],
+                        pd_02 = vdata[5],
+                        pd_03 = vdata[6],
+
+                        as_temp = vdata [7],
+                        as_saturation = vdata[8]
 
 
                               },

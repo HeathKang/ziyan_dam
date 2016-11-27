@@ -3,8 +3,8 @@
     [channel.equipment]
     protocol = "rtu"
     baudrate = 38400
-    addr = "0x0001"
-    count = 7
+    addr = "0x0002"
+    count = 8
     port = "COM1"
     unit = "0x01"
     timeout = 1

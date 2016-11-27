@@ -2,4 +2,4 @@
 [channel]
 type = 'command'
 interval = 1
-cmds = ["STR"]
+cmds = ["STR_B"]

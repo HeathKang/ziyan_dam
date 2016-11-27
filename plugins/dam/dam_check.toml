@@ -3,9 +3,9 @@
     [channel.equipment]
     protocol = "rtu"
     baudrate = 9600
-    addr = "0x0001"
-    count = 4
+    addr = "0x0002"
+    count = 16
     port = "COM2"
     unit = "0x06"
     timeout = 1
-    allowed_cmds = ['STR']
+    allowed_cmds = ['STR','STR_B']

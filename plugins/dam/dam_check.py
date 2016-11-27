@@ -45,6 +45,21 @@ class DAMCheck(CheckBase):
 
         self.mod.connect()
 
+    def format(self,data,conf):
+        """ get data from different register address and format"""
+
+        if 'STR_B' in conf:
+            data_a = data[:4]
+            data_b = data [13:16]
+            data_c = data[7:9]
+
+            data_format = data_a + data_b + data_c
+
+            return data_format
+
+        else:
+            return data
+
     def parse(self,data):
         """ handle data """
 
@@ -52,8 +67,9 @@ class DAMCheck(CheckBase):
         tem_data = data [:4]
         tem_data_handle = [ (100*(1.2 * 20 * float(d)/0xfff - 4)/16.0) for d in tem_data ]
 
-        pd_data = data[4]
-        pd_data_handle = int(round((float(1.2 * 20 * int(pd_data)/0xfff) - 4)/2))
+        pd_data = data[4:6]
+
+        pd_data_handle = [int(round((float(1.2 * 20 * int(d)/0xfff) - 4)/2)) for d in pd_data]
 
         hdtmp_data = data[5]
         hdtmp_data_handle = 125 * (1.2 * 16 * float(hdtmp_data)/0xfff) - 25
@@ -61,7 +77,7 @@ class DAMCheck(CheckBase):
         hdsatu_data = data [6]
         hdsatu_data_handle = 100 * (1.2 * 16 * float(hdsatu_data)/0xfff)
 
-        L = (L + tem_data_handle).append(pd_data_handle)
+        L = (L + tem_data_handle + pd_data_handle)
         L = L.append(hdtmp_data_handle)
         L = L.append(hdsatu_data_handle)
 
@@ -83,6 +99,8 @@ class DAMCheck(CheckBase):
 
                 # cmd = 'ASTZ'
                 rawdata = self.mod.query(cmd['cmd'])
+
+                data = self.format(rawdata,cmd['cmd'])
 
                 data = self.parse(rawdata)
 

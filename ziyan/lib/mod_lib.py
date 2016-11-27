@@ -114,7 +114,7 @@ class ModbusClient(object):
     def parse(self,data):
         '''parse the recive data '''
 
-        data = [(100 * (1.2 * 20 * float(d) / 0xfff - 4) / 16.0) for d in data]
+
 
         return data
 
