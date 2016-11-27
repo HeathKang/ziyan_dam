@@ -33,19 +33,15 @@ class ModbusClient(object):
         self.protocol =conf['protocol']
         self.port = conf["port"] # pc port COM
        # self.addr = hex(conf["addr"]) # the start of registers
-        self.addr = int(conf["addr"],base=16)
-        print("addr++" * 60)
-        log.debug(self.addr)
-        print("addr++" * 60)
+        #self.addr = int(conf["addr"],base=16)
+
         
         self.baudrate = conf["baudrate"]
 
-        self.count = conf["count"] # the number of register
+        #self.count = conf["count"] # the number of register
         #self.unit = hex(conf["unit"]) #the unit of registers
-        self.unit =  int(conf["unit"],base=16)
-        print("unit++" * 60)
-        log.debug(self.unit)
-        print("unit++" * 60)
+        #self.unit =  int(conf["unit"],base=16)
+
 
         self.timeout = conf["timeout"]
         self.allowed_cmds = set()
@@ -89,11 +85,13 @@ class ModbusClient(object):
             log.debug("connent close")
             self.client.close()
 
-    def _recv(self):
+    def _recv(self,addr,count,unit):
         """ recv """
 
         try:
-            data = self.client.read_holding_registers(self.addr, count=self.count, unit=self.unit)
+            addr,unit = int(addr,base=16),int(unit,base=16)
+
+            data = self.client.read_holding_registers(addr, count=count, unit=unit)
 
         except Exception as ex:
             log.debug(ex)
@@ -120,7 +118,7 @@ class ModbusClient(object):
 
 
 
-    def query(self, cmd, code=None):
+    def query(self, cmd, addr,count,unit):
         """ query """
 
         # channel number for build struct
@@ -150,7 +148,7 @@ class ModbusClient(object):
 
             if self.status == MOD_CONNECTED:
 
-                data_recv = self._recv()
+                data_recv = self._recv(addr,count,unit)
 
                 #print(data_recv)
 

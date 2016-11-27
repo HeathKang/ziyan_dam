@@ -1,5 +1,0 @@
-[channel]
-
-    type = 'command'
-    interval = 1
-    cmds = ["STR"]

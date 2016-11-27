@@ -62,7 +62,7 @@ class CheckBase(Base):
         interval = self.conf.get('interval',0)
         
         msg = {'uuid':uid, 'timestamp':timestamp,'type':type, 
-                'channel':self.channel, 'interval':interval, 'payload ':payload}
+                'channel':self.channel, 'interval':interval, 'payload':payload}
         
         return msg
         

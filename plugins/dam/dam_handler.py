@@ -61,42 +61,28 @@ class DAMHandler(HandlerBase):
 
             try:
                 ### get  msg from msg_queue
-                '''
-                timestamp = time.time()
-                data_test = [20, 20, 20, 20]
-                fields = {'uuid': 1,
-                          'timestamp': timestamp,
-                          'type': 1,
-                          'channel': self.channel,
-                          'interval': 10,
-                          'payload': data_test
-                          }
-                '''
 
                 fields = self.get()
 
-                log.debug(fields)
+                for field in fields:
 
-                eqpt_no = self.conf['dam_equipment']['equipmentno']
+                    timestamp = field['timestamp']
+                    eqpt_no = 'hpu' + str(field['unit'])
 
-                timestamp = fields['timestamp']
-
-                # log.debug(button_status)
-
-
-                measurement = self.conf['dam_measurement']['measurement']
-                log.debug(fields)
-                # msg = {'uuid':uid, 'timestamp':timestamp,'type':type, 'channel':self.channel, 'interval':interval, 'payload ':payload}
-                self.process(eqpt_no=eqpt_no,
-                             timestamp=int(timestamp * (1000)),
-                             cmd='STR',
-                             rawdata=fields['payload'],
-                             data=fields['payload'],
-                             measurement=measurement)
-                # msg_queue.task_done()
-                print("*" * 50)
-                log.debug(int(timestamp))
-                print("*" * 50)
+                    # log.debug(button_status)
+                    measurement = self.conf['dam_measurement']['measurement']
+                    log.debug(fields)
+                    # msg = {'uuid':uid, 'timestamp':timestamp,'type':type, 'channel':self.channel, 'interval':interval, 'payload ':payload}
+                    self.process(eqpt_no=eqpt_no,
+                                 timestamp=int(timestamp * (1000)),
+                                 cmd='STR',
+                                 rawdata=field['payload'],
+                                 data=field['payload'],
+                                 measurement=measurement)
+                    # msg_queue.task_done()
+                    print("*" * 50)
+                    log.debug(int(timestamp))
+                    print("*" * 50)
             except Exception as e:
 
                 log.debug(e)

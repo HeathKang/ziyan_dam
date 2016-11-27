@@ -41,17 +41,17 @@ for DAM
                     measurement = measurement,
                     time = timestamp,
                     fields = {
-                        temp_01  = vdata[0],
-                        temp_02  = vdata[1],
-                        temp_03  = vdata[2],
-                        temp_04  = vdata[3],
+                        temp_01  = vdata[1],
+                        temp_02  = vdata[2],
+                        temp_03  = vdata[3],
+                        temp_04  = vdata[4],
 
-                        pd_01 = vdata [4],
-                        pd_02 = vdata[5],
-                        pd_03 = vdata[6],
+                        pd_01 = vdata [5],
+                        pd_02 = vdata[6],
+                        pd_03 = vdata[7],
 
-                        as_temp = vdata [7],
-                        as_saturation = vdata[8]
+                        as_temp = vdata [8],
+                        as_saturation = vdata[9]
 
 
                               },

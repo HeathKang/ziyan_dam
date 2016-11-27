@@ -9,6 +9,8 @@ from __future__ import absolute_import
 import os
 import sys
 
+import uuid
+
 import time
 
 from logbook import Logger
@@ -45,17 +47,30 @@ class DAMCheck(CheckBase):
 
         self.mod.connect()
 
+    def readdata(self,cmd):
+        """ read data from modbus"""
+
+        data = {}
+
+        for unit in self.conf['equipment']['units']:
+
+            rawdata = self.mod.query(cmd,self.conf['equipment']['addr'],self.conf['equipment']['count'],unit)
+
+            data.update({ unit : rawdata })
+        return data
+
     def format(self,data,conf):
         """ get data from different register address and format"""
 
         if 'STR_B' in conf:
-            data_a = data[:4]
-            data_b = data [13:16]
-            data_c = data[7:9]
+            for unit in data:
+                data_a = data[unit][:4]
+                data_b = data [unit][13:16]
+                data_c = data[unit][7:9]
 
-            data_format = data_a + data_b + data_c
+                data[unit] = data_a + data_b + data_c
 
-            return data_format
+            return data
 
         else:
             return data
@@ -63,25 +78,61 @@ class DAMCheck(CheckBase):
     def parse(self,data):
         """ handle data """
 
-        L=[]
-        tem_data = data [:4]
-        tem_data_handle = [ (100*(1.2 * 20 * float(d)/0xfff - 4)/16.0) for d in tem_data ]
+        for unit in data:
+            L = []
+            tem_data = data[unit][:4]
+            tem_data_handle = [ (100*(1.2 * 20 * float(d)/0xfff - 4)/16.0) for d in tem_data ]
 
-        pd_data = data[4:6]
+            pd_data = data[unit][4:6]
+            pd_data_handle = []
 
-        pd_data_handle = [int(round((float(1.2 * 20 * int(d)/0xfff) - 4)/2)) for d in pd_data]
+            for d in pd_data:
+                I = float(1.2 * 20 * int(d) / 0xfff)
 
-        hdtmp_data = data[5]
-        hdtmp_data_handle = 125 * (1.2 * 16 * float(hdtmp_data)/0xfff) - 25
+                dt = int(round((I - 4) * 2))
+                pd_data_handle.append(dt)
 
-        hdsatu_data = data [6]
-        hdsatu_data_handle = 100 * (1.2 * 16 * float(hdsatu_data)/0xfff)
+            hdtmp_data = data[unit][5]
 
-        L = (L + tem_data_handle + pd_data_handle)
-        L = L.append(hdtmp_data_handle)
-        L = L.append(hdsatu_data_handle)
 
-        return L
+            hdsatu_data = data[unit][6]
+
+
+            L = L + tem_data_handle + pd_data_handle
+            print (L)
+            L = L + [hdtmp_data] + [hdsatu_data]
+
+
+            data[unit] = L
+
+        return data
+
+    def data_payload(self,payload):
+        """
+
+            inject payload into msg body
+            msg_data = [
+                    {'uuid': uid, 'timestamp': timestamp,
+                   'unit': unit, 'payload ': payload[unit]},
+                    {'uuid': uid, 'timestamp': timestamp,
+                   'unit': unit, 'payload ': payload[unit]}
+                    ...
+            ]
+
+        """
+        msg_data = []
+        for unit  in payload:
+
+            uid = str(uuid.uuid4())
+
+            timestamp = time.time()
+
+            msg = {'uuid': uid, 'timestamp': timestamp,
+                   'unit': unit, 'payload': payload[unit]}
+
+            msg_data.append(msg)
+
+        return msg_data
 
 
     def run(self):
@@ -89,30 +140,32 @@ class DAMCheck(CheckBase):
 
         while True:
 
-            try:
 
-                log.debug(self.g.queues.keys())
 
-                cmd = self.get_cmd()
+            log.debug(self.g.queues.keys())
 
-                log.debug(cmd)
+            cmd = self.get_cmd()
 
-                # cmd = 'ASTZ'
-                rawdata = self.mod.query(cmd['cmd'])
+            log.debug(cmd)
 
-                data = self.format(rawdata,cmd['cmd'])
+            # cmd = 'ASTZ'
+            readdata = self.readdata(cmd['cmd'])
 
-                data = self.parse(rawdata)
 
-                data = self.inject_payload(int,data)
 
-                log.debug(data)
+            data = self.format(readdata,cmd['cmd'])
 
-                self.put(data)
+
+            data = self.parse(data)
+
+            data = self.data_payload(data)
+
+            log.debug(data)
+
+            self.put(data)
 
 
 
                                 # time.sleep(3)
-            except Exception as ex:
 
-                log.error(ex)
+

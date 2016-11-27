@@ -6,6 +6,9 @@
     addr = "0x0002"
     count = 8
     port = "COM1"
-    unit = "0x01"
+    units = ["0x01","0x02","0x03","0x04","0x05"]
     timeout = 1
     allowed_cmds = ['STR']
+
+    
+

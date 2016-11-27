@@ -9,3 +9,6 @@
     unit = "0x06"
     timeout = 1
     allowed_cmds = ['STR','STR_B']
+
+
+
