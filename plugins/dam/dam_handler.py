@@ -67,7 +67,8 @@ class DAMHandler(HandlerBase):
                 for field in fields:
 
                     timestamp = field['timestamp']
-                    eqpt_no = 'hpu' + str(field['unit'])
+                    eqpt_no = field['unit']
+                    print eqpt_no
 
                     # log.debug(button_status)
                     measurement = self.conf['dam_measurement']['measurement']

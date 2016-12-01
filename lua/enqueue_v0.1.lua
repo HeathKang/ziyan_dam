@@ -25,6 +25,16 @@ for DAM
 
     local old_timestamp = redis.call("HGET", eqpt_key,"timestamp")
 
+    local switch = {
+            ["1"] = "hpu_6",
+            ["2"] = "hpu_5",
+            ["3"] = "hpu_4",
+            ["4"] = "hpu_3",
+            ["5"] = "hpu_2",
+            ["6"] = "hpu_1"
+    }
+
+
     if old_timestamp == false then
         redis.call("HSET",eqpt_key,"timestamp",timestamp)
         old_timestamp = redis.call("HGET",eqpt_key,"timestamp")
@@ -56,7 +66,7 @@ for DAM
 
                               },
                     tags = {
-                        eqpt_no =  eqt,
+                        eqpt_no = switch[eqt],
                         node = "1"
                             }
                 }

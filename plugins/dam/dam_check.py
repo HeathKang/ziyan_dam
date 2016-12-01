@@ -121,7 +121,7 @@ class DAMCheck(CheckBase):
 
         """
         msg_data = []
-        for unit  in payload:
+        for unit in payload:
 
             uid = str(uuid.uuid4())
 
@@ -154,7 +154,7 @@ class DAMCheck(CheckBase):
 
 
             data = self.format(readdata,cmd['cmd'])
-
+            data = {1:[1,2,3,4,5,6,7]}
 
             data = self.parse(data)
 

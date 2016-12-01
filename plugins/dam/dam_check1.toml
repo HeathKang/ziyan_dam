@@ -10,5 +10,5 @@
     timeout = 1
     allowed_cmds = ['STR']
 
-    
+
 
